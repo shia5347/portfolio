@@ -258,7 +258,7 @@ function AppendPage(props) {
     else if (props.pagType === "About") {
         return (react_1.default.createElement(react_1.default.Fragment, null,
             react_1.default.createElement("h1", { id: "subTitle" }, "About Me"),
-            react_1.default.createElement("img", { src: "../public/img/myFace.jpg", id: "myFace" }),
+            react_1.default.createElement("img", { src: "../img/myFace.jpg", id: "myFace" }),
             react_1.default.createElement("p", { id: "aboutMeText" }, "Hi! I am a hobbyist game developer with knowledge both in web development and software development. I have a strong passion for art beyond just my games and enjoy experimenting with math equations to get cool effects in my software."),
             react_1.default.createElement("p", { id: "aboutMeText" }, "I have participated in many game jams (which are hackathons but for video game projects) and created many other projects beyond just that. My favorite programming languages are c++ and typescript."),
             react_1.default.createElement("p", { id: "aboutMeText" }, "I am looking forward to designing new innovative games in the future and commercializing my creative works.")));
