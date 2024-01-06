@@ -34,7 +34,6 @@ document.addEventListener("mousemove",(event) => {
 
 function Title ({title}: {title: string}) {
 
-
 var posY: number = 75
 
 var windowWidth: number = window.innerWidth
