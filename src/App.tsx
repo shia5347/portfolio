@@ -369,7 +369,7 @@ function AppendPage (props: PageProps) {
 		return (
 		<>
 		<h1 id="subTitle">About Me</h1>
-		<img src="../img/myFace.jpg" id="myFace"/> 
+		<img src="img/myFace.jpg" id="myFace"/> 
 		<p id="aboutMeText">
 	Hi! I am a hobbyist game developer with knowledge both in web development and software development. 
 	I have a strong passion for art beyond just my games and enjoy experimenting with math equations to get cool effects in my software.
