@@ -20,8 +20,10 @@
   },
   "dependencies": {
     "@pixi/react": "^7.1.1",
+    "@pixi/sound": "^5.2.2",
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.14",
+    "pixi-viewport": "^5.0.2",
     "pixi.js": "^7.3.2",
     "react-dom": "^18.2.0"
   }
