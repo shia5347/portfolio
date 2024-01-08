@@ -20,13 +20,25 @@ ul {
 	padding-top: 30px;
 }
 
-li {
+#navContainer li {
 	display: inline;
 	padding: 20px;
 	font-family: 'Roboto', sans-serif;
 	font-size: 30px;
 	text-decoration: none;
 
+}
+
+#softwareNav li {
+
+	padding: 20px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 30px;
+	text-decoration: none;
+}
+
+#softwareNav ul {
+	position: absolute;
 }
 
 li s {
@@ -57,6 +69,7 @@ li s {
 	margin: auto;
 
 	padding-left: 20%;
+	padding-top: 50px;
 }
 
 #subTitle {
@@ -88,8 +101,13 @@ li s {
 	font-size: 1.5em;
 }
 
+#imgContainer {
+	width: 100%;
+	height: auto;
+	position: relative;
+}
 
-#gallery img {
+#imgContainer img{
 	width: 100%;
 	height: auto;
 	transition: transform .2s;
@@ -102,8 +120,35 @@ li s {
 
 }
 
-#gallery img:hover {
+
+#softwareNav {
+	align: left;
+}
+
+#softwareIMGOverlay {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 100%;
+	width: 100%;
+	opacity: 0;
+	transition: .2s ease;
+	background-color: #000000;
+}
+
+#softwareIMGOverlayText {
+	padding-top: 17%;
+	color: white;
+}
+
+#imgContainer img:hover {
 	transform: scale(1.1);
+}
+
+#imgContainer:hover #softwareIMGOverlay {
+	opacity: 0.8;
 }
 
 #pixiApp {

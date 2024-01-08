@@ -242,18 +242,22 @@ function PixiApp() {
             react_1.default.createElement(Title, { title: "Shahroz Khan" }))));
 }
 function AppendPage(props) {
+    const [softwarePage, setPage] = (0, react_1.useState)("SoftwareGAMES");
     if (props.pagType === "Illustrations") {
-        return (react_1.default.createElement("div", { id: "gallery" }));
+        return (react_1.default.createElement("div", { id: "gallery" },
+            react_1.default.createElement("div", { id: "imgContainer" },
+                react_1.default.createElement("img", { src: "img/illustrations/BinocularGirl.png" }))));
     }
     else if (props.pagType === "Pixelart") {
         return (react_1.default.createElement("div", { id: "gallery" },
-            react_1.default.createElement("img", { src: "img/pixelart/Omeshicha.png" }),
-            react_1.default.createElement("img", { src: "img/pixelart/AnimeMom.png" }),
-            react_1.default.createElement("img", { src: "img/pixelart/Mario32x32.png" }),
-            react_1.default.createElement("img", { src: "img/pixelart/MarioMockup.png" }),
-            react_1.default.createElement("img", { src: "img/pixelart/NiceLogo.png" }),
-            react_1.default.createElement("img", { src: "img/pixelart/HorseAsbaran.png" }),
-            react_1.default.createElement("img", { src: "img/pixelart/Mockup2.png" })));
+            react_1.default.createElement("div", { id: "imgContainer" },
+                react_1.default.createElement("img", { src: "img/pixelart/Omeshicha.png" }),
+                react_1.default.createElement("img", { src: "img/pixelart/AnimeMom.png" }),
+                react_1.default.createElement("img", { src: "img/pixelart/Mario32x32.png" }),
+                react_1.default.createElement("img", { src: "img/pixelart/MarioMockup.png" }),
+                react_1.default.createElement("img", { src: "img/pixelart/NiceLogo.png" }),
+                react_1.default.createElement("img", { src: "img/pixelart/HorseAsbaran.png" }),
+                react_1.default.createElement("img", { src: "img/pixelart/Mockup2.png" }))));
     }
     else if (props.pagType === "About") {
         return (react_1.default.createElement(react_1.default.Fragment, null,
@@ -262,6 +266,75 @@ function AppendPage(props) {
             react_1.default.createElement("p", { id: "aboutMeText" }, "Hi! I am a hobbyist game developer with knowledge both in web development and software development. I have a strong passion for art beyond just my games and enjoy experimenting with math equations to get cool effects in my software."),
             react_1.default.createElement("p", { id: "aboutMeText" }, "I have participated in many game jams (which are hackathons but for video game projects) and created many other projects beyond just that. My favorite programming languages are c++ and typescript."),
             react_1.default.createElement("p", { id: "aboutMeText" }, "I am looking forward to designing new innovative games in the future and commercializing my creative works.")));
+    }
+    else if (props.pagType === "Software") {
+        if (softwarePage === "SoftwareGAMES") {
+            return (react_1.default.createElement(react_1.default.Fragment, null,
+                react_1.default.createElement("div", { id: "softwareNav" },
+                    react_1.default.createElement("ul", null,
+                        react_1.default.createElement("li", null,
+                            react_1.default.createElement("a", { href: "#CLITools", onClick: () => setPage("SoftwareCLI") }, "CLI tools")),
+                        react_1.default.createElement("li", null,
+                            react_1.default.createElement("a", { href: "#Games", onClick: () => setPage("SoftwareGAMES") }, "Games")))),
+                react_1.default.createElement("div", { id: "gallery" },
+                    react_1.default.createElement("div", { id: "imgContainer" },
+                        react_1.default.createElement("img", { id: "img1", src: "img/gameImages/birbyNight.gif" }),
+                        react_1.default.createElement("a", { href: "https://devoc.itch.io/birby" },
+                            react_1.default.createElement("div", { id: "softwareIMGOverlay" },
+                                react_1.default.createElement("div", { id: "softwareIMGOverlayText" },
+                                    react_1.default.createElement("p", null, "Puzzle platformer with"),
+                                    react_1.default.createElement("p", null, "platform splashing mechanics."),
+                                    react_1.default.createElement("p", null, "Made in Godot."))))),
+                    react_1.default.createElement("div", { id: "imgContainer" },
+                        react_1.default.createElement("img", { id: "img2", src: "img/gameImages/terminalShooter.png" }),
+                        react_1.default.createElement("a", { href: "https://devoc.itch.io/terminalShooter" },
+                            react_1.default.createElement("div", { id: "softwareIMGOverlay" },
+                                react_1.default.createElement("div", { id: "softwareIMGOverlayText" },
+                                    react_1.default.createElement("p", null, "Bullet hell java game with"),
+                                    react_1.default.createElement("p", null, "player switching mechanics."),
+                                    react_1.default.createElement("p", null, "Made for the brackeys game jam."))))),
+                    react_1.default.createElement("div", { id: "imgContainer" },
+                        react_1.default.createElement("img", { id: "img3", src: "img/gameImages/lifelessBits.gif" }),
+                        react_1.default.createElement("a", { href: "https://devoc.itch.io/lifelessBits" },
+                            react_1.default.createElement("div", { id: "softwareIMGOverlay" },
+                                react_1.default.createElement("div", { id: "softwareIMGOverlayText" },
+                                    react_1.default.createElement("p", null, "FPS highscore game."),
+                                    react_1.default.createElement("p", null, "Made for the LOWREZ jam."))))),
+                    react_1.default.createElement("div", { id: "imgContainer" },
+                        react_1.default.createElement("img", { id: "img4", src: "img/gameImages/1984.png" }),
+                        react_1.default.createElement("a", { href: "https://devoc.itch.io/1984" },
+                            react_1.default.createElement("div", { id: "softwareIMGOverlay" },
+                                react_1.default.createElement("div", { id: "softwareIMGOverlayText" },
+                                    react_1.default.createElement("p", null, "First person story game"),
+                                    react_1.default.createElement("p", null, "based on the book 1984"),
+                                    react_1.default.createElement("p", null, "by George Orwell."))))),
+                    react_1.default.createElement("div", { id: "imgContainer" },
+                        react_1.default.createElement("img", { id: "img5", src: "img/gameImages/DegBomb.png" }),
+                        react_1.default.createElement("a", { href: "https://devoc.itch.io/degree-bomb" },
+                            react_1.default.createElement("div", { id: "softwareIMGOverlay" },
+                                react_1.default.createElement("div", { id: "softwareIMGOverlayText" },
+                                    react_1.default.createElement("p", null, "A unity3D game about"),
+                                    react_1.default.createElement("p", null, "about destorying enemies"),
+                                    react_1.default.createElement("p", null, "with a rotating sphere."),
+                                    react_1.default.createElement("p", null, "Made for the brackeys game jam."))))))));
+        }
+        else if (softwarePage === "SoftwareCLI") {
+            return (react_1.default.createElement(react_1.default.Fragment, null,
+                react_1.default.createElement("div", { id: "softwareNav" },
+                    react_1.default.createElement("ul", null,
+                        react_1.default.createElement("li", null,
+                            react_1.default.createElement("a", { href: "#CLITools", onClick: () => setPage("SoftwareCLI") }, "CLI tools")),
+                        react_1.default.createElement("li", null,
+                            react_1.default.createElement("a", { href: "#Games", onClick: () => setPage("SoftwareGAMES") }, "Games"))))));
+        }
+    }
+    else if (props.pagType === "Contact") {
+        return (react_1.default.createElement(react_1.default.Fragment, null,
+            react_1.default.createElement("img", { src: "img/awkwardSmile.jpg", id: "myFace" }),
+            react_1.default.createElement("p", { id: "aboutMeText" }, "Email: mugeneve@gmail.com"),
+            react_1.default.createElement("p", { id: "aboutMeText" },
+                "Github: ",
+                react_1.default.createElement("a", { href: "https://github.com/shia5347" }, "shia5347"))));
     }
 }
 function Navigation() {
@@ -278,6 +351,12 @@ function Navigation() {
             case "#About":
                 setPage("About");
                 break;
+            case "#Software":
+                setPage("Software");
+                break;
+            case "#Contact":
+                setPage("Contact");
+                break;
         }
     });
     return (react_1.default.createElement("div", null,
@@ -290,9 +369,9 @@ function Navigation() {
                 react_1.default.createElement("li", null,
                     react_1.default.createElement("a", { href: "#Software", onClick: () => setPage("Software") }, "Software")),
                 react_1.default.createElement("li", null,
-                    react_1.default.createElement("a", { href: "#About", onClick: () => setPage("About") }, "About")),
+                    react_1.default.createElement("a", { href: "#Contact", onClick: () => setPage("Contact") }, "Contact")),
                 react_1.default.createElement("li", null,
-                    react_1.default.createElement("a", { href: "#Contact" }, "Contact")))),
+                    react_1.default.createElement("a", { href: "#About", onClick: () => setPage("About") }, "About")))),
         react_1.default.createElement(AppendPage, { pagType: page })));
 }
 function MyApp() {

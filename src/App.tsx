@@ -6,7 +6,8 @@ import * as SOUND from "@pixi/sound"
 
 const ratio:number = window.innerWidth/window.innerHeight
 
-type pageType = "Illustrations" | "Pixelart" | "OilPaintings" | "About" | "Software"
+type pageType = "Illustrations" | "Pixelart" | "OilPaintings" | "About" | "Software" | "Contact"
+type softwarePageType = "SoftwareGAMES" | "SoftwareCLI"
 const reducerPlain = (_: any,{ data }: any) => data
 
 const app = new Application<HTMLCanvasElement>({
@@ -237,7 +238,7 @@ document.addEventListener('click', (e) => {
 		if(letterPhysics[i].hoverable === false) {
 			bounce(i)
 		}
-
+		
 		if(mouseX > letterPositions[i].x && mouseX < letterPositions[i].x+70) {
 
 			letterPositions[i].char = activeTextStyle
@@ -260,7 +261,6 @@ document.addEventListener('click', (e) => {
 
 
 		}
-
 
 
 update({
@@ -333,7 +333,6 @@ window.addEventListener('resize', () => {
 	})
 
 
-
 	return (
 	<div id="pixiApp">
 	<Stage width={width} height={height} options={{backgroundAlpha: 0}}>
@@ -345,15 +344,21 @@ window.addEventListener('resize', () => {
 }
 
 function AppendPage (props: PageProps) {
+
+const [softwarePage,setPage] = useState<softwarePageType>("SoftwareGAMES")
 	
 	if(props.pagType==="Illustrations") {
 	return (
 		<div id="gallery">
+		<div id="imgContainer">
+		<img src="img/illustrations/BinocularGirl.png"/>
+		</div>
 		</div>
 	       )	
 	} else if (props.pagType==="Pixelart"){
 		return ( 
 		<div id="gallery">
+		<div id="imgContainer">
 		<img src="img/pixelart/Omeshicha.png"/>
 		<img src="img/pixelart/AnimeMom.png"/>
 		<img src="img/pixelart/Mario32x32.png"/>
@@ -361,6 +366,7 @@ function AppendPage (props: PageProps) {
 		<img src="img/pixelart/NiceLogo.png"/>
 		<img src="img/pixelart/HorseAsbaran.png"/>
 		<img src="img/pixelart/Mockup2.png"/>
+		</div>
 		</div> 
 
 		)
@@ -386,8 +392,133 @@ function AppendPage (props: PageProps) {
 		</>
 		)
 
-	}	
+	} else if(props.pagType==="Software") {
+		
+		if(softwarePage === "SoftwareGAMES") {
+		return (
+		<>
 
+		<div id="softwareNav">
+		<ul>
+		<li><a href="#CLITools" onClick={() => setPage("SoftwareCLI")}>CLI tools</a></li>
+		<li><a href="#Games" onClick={() => setPage("SoftwareGAMES")}>Games</a></li>
+		</ul>	
+		</div>
+
+
+		<div id="gallery">
+		
+		<div id="imgContainer">
+		<img id="img1" src="img/gameImages/birbyNight.gif"/>
+		
+		<a href="https://devoc.itch.io/birby">	
+		<div id="softwareIMGOverlay">
+		<div id="softwareIMGOverlayText">
+		<p>Puzzle platformer with</p>
+		<p>platform splashing mechanics.</p>
+		<p>Made in Godot.</p>
+		</div>
+		</div>		
+		</a>
+
+		</div>
+
+		<div id="imgContainer">
+		<img id="img2" src="img/gameImages/terminalShooter.png"/>
+
+
+		<a href="https://devoc.itch.io/terminalShooter">	
+		<div id="softwareIMGOverlay">
+		<div id="softwareIMGOverlayText">
+		<p>Bullet hell java game with</p>
+		<p>player switching mechanics.</p>
+		<p>Made for the brackeys game jam.</p>
+		</div>
+		</div>		
+		</a>
+
+		</div>
+
+
+
+		<div id="imgContainer">
+		<img id="img3" src="img/gameImages/lifelessBits.gif"/>
+
+		<a href="https://devoc.itch.io/lifelessBits">	
+		<div id="softwareIMGOverlay">
+		<div id="softwareIMGOverlayText">
+		<p>FPS highscore game.</p>
+		<p>Made for the LOWREZ jam.</p>
+		</div>
+		</div>		
+		</a>
+		
+		</div>
+
+		<div id="imgContainer">
+		<img id="img4" src="img/gameImages/1984.png"/>
+
+		<a href="https://devoc.itch.io/1984">	
+		<div id="softwareIMGOverlay">
+		<div id="softwareIMGOverlayText">
+		<p>First person story game</p>
+		<p>based on the book 1984</p>
+		<p>by George Orwell.</p>
+		</div>
+		</div>		
+		</a>
+		
+		</div>
+
+
+		<div id="imgContainer">
+		<img id="img5" src="img/gameImages/DegBomb.png"/>
+
+		<a href="https://devoc.itch.io/degree-bomb">	
+		<div id="softwareIMGOverlay">
+		<div id="softwareIMGOverlayText">
+		<p>A unity3D game about</p>
+		<p>about destorying enemies</p>
+		<p>with a rotating sphere.</p>
+		<p>Made for the brackeys game jam.</p>
+		</div>
+		</div>		
+		</a>
+		
+		</div>
+
+
+		</div>
+
+		</>
+		)
+		
+		} else if(softwarePage === "SoftwareCLI") {
+			return (
+				<>
+		<div id="softwareNav">
+		<ul>
+		<li><a href="#CLITools" onClick={() => setPage("SoftwareCLI")}>CLI tools</a></li>
+		<li><a href="#Games" onClick={() => setPage("SoftwareGAMES")}>Games</a></li>
+		</ul>	
+		</div>
+		</>
+			       )
+		}	
+
+	} else if(props.pagType==="Contact") {
+		return (
+		<>
+		<img src="img/awkwardSmile.jpg" id="myFace"/> 
+		<p id="aboutMeText">
+		Email: mugeneve@gmail.com
+		</p>
+		<p id="aboutMeText">
+		Github: <a href="https://github.com/shia5347">shia5347</a> 
+		</p>
+		</>
+		)
+	}
 }
 
 function Navigation() {
@@ -409,32 +540,37 @@ useEffect(()=> {
 		setPage("Pixelart")
 		break;
 
-
 		case "#About":
 		setPage("About")
+		break;
+		
+		case "#Software":
+		setPage("Software")
+		break;
+
+
+		case "#Contact":
+		setPage("Contact")
 		break;
 
 		}
 
 })
 
+
 	return (
 
 	<div>	
 	<div id="navContainer">
-
 	<ul>
 	<li><a href="#Illustrations" onClick={() => setPage("Illustrations")}>Illustrations</a></li>
 	<li><a href="#PixelArt" onClick={() => setPage("Pixelart")}>PixelArt</a></li>
 	<li><a href="#Software" onClick={() => setPage("Software")}>Software</a></li>
+	<li><a href="#Contact" onClick={() => setPage("Contact")}>Contact</a></li>
 	<li><a href="#About" onClick={() => setPage("About")}>About</a></li>
-	<li><a href="#Contact">Contact</a></li>
 	</ul>
-	
-
 
 	</div>
-
 	<AppendPage pagType={page}/>	
 	</div>
 
