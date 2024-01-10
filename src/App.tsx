@@ -28,8 +28,8 @@ const defaultPageProps: PageProps = {
 var mouseX: number
 var mouseY: number
 document.addEventListener("mousemove",(event) => {
-	mouseX = event.screenX
-	mouseY = event.screenY
+	mouseX = event.clientX
+	mouseY = event.clientY
 })
 
 
@@ -142,6 +142,8 @@ setLetterPositions([
 	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 1)), y: windowHeight-(windowHeight-posY), char: textStyle},		
 	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing)), y: windowHeight-(windowHeight-posY), char: textStyle}		
 ])
+
+//Remove event listener for mouseMove and add it again
 
 
 }, [windowWidth,windowHeight]) 
