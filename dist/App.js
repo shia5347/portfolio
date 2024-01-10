@@ -40,8 +40,8 @@ const defaultPageProps = {
 var mouseX;
 var mouseY;
 document.addEventListener("mousemove", (event) => {
-    mouseX = event.screenX;
-    mouseY = event.screenY;
+    mouseX = event.clientX;
+    mouseY = event.clientY;
 });
 function Title({ title }) {
     var posY = 75;
@@ -118,6 +118,7 @@ function Title({ title }) {
             { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 1)), y: windowHeight - (windowHeight - posY), char: textStyle },
             { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing)), y: windowHeight - (windowHeight - posY), char: textStyle }
         ]);
+        //Remove event listener for mouseMove and add it again
     }, [windowWidth, windowHeight]);
     var letterIndex = 0;
     (0, react_2.useTick)((delta) => {
