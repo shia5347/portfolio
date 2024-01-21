@@ -258,7 +258,9 @@ function AppendPage(props) {
                 react_1.default.createElement("img", { src: "img/pixelart/MarioMockup.png" }),
                 react_1.default.createElement("img", { src: "img/pixelart/NiceLogo.png" }),
                 react_1.default.createElement("img", { src: "img/pixelart/HorseAsbaran.png" }),
-                react_1.default.createElement("img", { src: "img/pixelart/Mockup2.png" }))));
+                react_1.default.createElement("img", { src: "img/pixelart/acgr.png" }),
+                react_1.default.createElement("img", { src: "img/pixelart/PlayerWalkingDown.png" }),
+                react_1.default.createElement("img", { src: "img/pixelart/PlayerWalkingUp.png" }))));
     }
     else if (props.pagType === "About") {
         return (react_1.default.createElement(react_1.default.Fragment, null,
