@@ -367,7 +367,9 @@ const [softwarePage,setPage] = useState<softwarePageType>("SoftwareGAMES")
 		<img src="img/pixelart/MarioMockup.png"/>
 		<img src="img/pixelart/NiceLogo.png"/>
 		<img src="img/pixelart/HorseAsbaran.png"/>
-		<img src="img/pixelart/Mockup2.png"/>
+		<img src="img/pixelart/acgr.png"/>
+		<img src="img/pixelart/PlayerWalkingDown.png" />
+		<img src="img/pixelart/PlayerWalkingUp.png"/>
 		</div>
 		</div> 
 
