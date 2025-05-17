@@ -29,11 +29,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
 const client_1 = require("react-dom/client");
 const App_1 = __importDefault(require("./App"));
+const HomepageApp_1 = __importDefault(require("./HomepageApp"));
+const MyGames_1 = __importDefault(require("./MyGames"));
+const react_router_dom_1 = require("react-router-dom");
 const rootElement = document.getElementById("root");
+const router = (0, react_router_dom_1.createBrowserRouter)([
+    { path: '/', element: react_1.default.createElement(App_1.default, null) },
+    {
+        path: '/home',
+        element: react_1.default.createElement(HomepageApp_1.default, null),
+        children: [
+            { index: true, path: 'games', element: react_1.default.createElement(MyGames_1.default, null) },
+            { path: 'software', element: react_1.default.createElement("h1", null, "SOFTWARE") }
+        ],
+    }
+]);
 if (rootElement) {
     const root = (0, client_1.createRoot)(rootElement);
     root.render(react_1.default.createElement(react_1.StrictMode, null,
-        react_1.default.createElement(App_1.default, null)));
+        react_1.default.createElement(react_router_dom_1.RouterProvider, { router: router })));
 }
 else {
     console.log("Element with id 'root' not found.");

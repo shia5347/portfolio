@@ -1,29 +1,21 @@
-import React, {useState, createContext, useContext, useEffect, useReducer, useCallback } from 'react';
+import React, {useState,  useEffect, useReducer, useCallback } from 'react';
 import { Stage, Text, Sprite, useTick, Graphics } from '@pixi/react';
 import { Viewport  } from 'pixi-viewport'
-import { TextStyle, Application } from 'pixi.js'
+import { TextStyle, Application, Container } from 'pixi.js'
 import * as SOUND from "@pixi/sound"
+
+import {BrowserRouter, Link} from 'react-router-dom'
 
 const ratio:number = window.innerWidth/window.innerHeight
 
-type pageType = "Illustrations" | "Pixelart" | "OilPaintings" | "About" | "Software" | "Contact"
-type softwarePageType = "SoftwareGAMES" | "SoftwareCLI"
 const reducerPlain = (_: any,{ data }: any) => data
 
 const app = new Application<HTMLCanvasElement>({
 	width: window.innerWidth,
 	height: window.innerHeight,
 	backgroundColor: 0x1099bb,
-	
 })
 
-interface PageProps {
-	pagType?: pageType
-}
-
-const defaultPageProps: PageProps = {
-	pagType: 'Illustrations'
-}
 
 var mouseX: number
 var mouseY: number
@@ -33,78 +25,95 @@ document.addEventListener("mousemove",(event) => {
 })
 
 
-function Title ({title}: {title: string}) {
+function Title () {
 
 var posY: number = 75
-
 var windowWidth: number = window.innerWidth
 var windowHeight: number = window.innerHeight
+
+
+var title: string = "Shahroz Khan"
 
 const [motion,update] = useReducer(reducerPlain, null)
 
 const textStyle: TextStyle = new TextStyle(
 {
 	fontFamily: 'Roboto-Regular',
-	fontSize: 90,
+	fontSize: 180,
 	fill: 'white'
 })
 
 const activeTextStyle: TextStyle = new TextStyle( {
 	fontFamily: 'Roboto-Regular',
-	fontSize: 90,
+	fontSize: 160,
 	stroke: 'red',
 	strokeThickness: 2,
 	fill: 'white'
 	}
 )
 
+var hyperlinkFontSize: number = 50
+
+var hyperlinkStyle: TextStyle = new TextStyle({
+	fontFamily: 'Jersey 10',
+	fontSize: hyperlinkFontSize,
+	fill: 'orange'
+})
+
+var hyperlinkText: string = "Go to the lounge"
+var hyperlinkLength: number = hyperlinkText.length 
+
+
 const titleArr: string[] = title.split('')
 
 //Calculate first letter position
 const titleLength: number = title.length 
 const titleLengthPixels: number = titleLength/2 
-const titleSpacing: number = 55
+const titleSpacing: number = 100
+
+var titleY: number = windowHeight/2 
 
 const letterPositionsArr = [
-	{x: windowWidth/2 - titleLengthPixels * titleSpacing, y: windowHeight-(windowHeight-posY), char: textStyle},
-	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing)), y: windowHeight-(windowHeight-posY), char: textStyle},
-	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: windowHeight-(windowHeight-posY), char: textStyle},
-	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: windowHeight-(windowHeight-posY), char: textStyle},		
-	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 4)), y: windowHeight-(windowHeight-posY), char: textStyle},		
-	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 5)), y: windowHeight-(windowHeight-posY), char: textStyle},		
-	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 6)), y: windowHeight-(windowHeight-posY), char: textStyle},		
+	{x: windowWidth/2 - titleLengthPixels * titleSpacing, y: titleY, char: textStyle},
+	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing)), y: titleY, char: textStyle},
+	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: titleY, char: textStyle},
+	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: titleY, char: textStyle},		
+	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 4)), y: titleY, char: textStyle},		
+	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 5)), y: titleY, char: textStyle},		
+	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 6)), y: titleY, char: textStyle},		
 
-	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: windowHeight-(windowHeight-posY), char: textStyle},		
-	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: windowHeight-(windowHeight-posY), char: textStyle},		
-	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 1)), y: windowHeight-(windowHeight-posY), char: textStyle},		
-	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing)), y: windowHeight-(windowHeight-posY), char: textStyle}		
+	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: titleY, char: textStyle},		
+	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: titleY, char: textStyle},		
+	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 1)), y: titleY, char: textStyle},		
+	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing)), y: titleY, char: textStyle}		
 ]
 
-var hMax:number = windowHeight-(windowHeight-posY+20)
+
+var hMax:number = windowHeight/2-20
 var g:number = 9.8
 //Physics properties for each letter
 const letterPhysicsArr = [
-	{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: windowHeight-(windowHeight-posY+20), floor: windowHeight-(windowHeight-posY), vMax: Math.sqrt(2*hMax*g), hoverable: true},
+	{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: titleY, vMax: Math.sqrt(2*hMax*g), hoverable: true},
 
-	{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: windowHeight-(windowHeight-posY+20), floor: windowHeight-(windowHeight-posY), vMax: Math.sqrt(2*hMax*g), hoverable: true},
+	{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: titleY, vMax: Math.sqrt(2*hMax*g), hoverable: true},
 
-{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: windowHeight-(windowHeight-posY), vMax: Math.sqrt(2*hMax*g), hoverable: true},
+{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: titleY, vMax: Math.sqrt(2*hMax*g), hoverable: true},
 
-{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: windowHeight-(windowHeight-posY), vMax: Math.sqrt(2*hMax*g), hoverable: true},
+{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: titleY, vMax: Math.sqrt(2*hMax*g), hoverable: true},
 
-{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: windowHeight-(windowHeight-posY), vMax: Math.sqrt(2*hMax*g), hoverable: true},
+{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: titleY, vMax: Math.sqrt(2*hMax*g), hoverable: true},
 
-{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: windowHeight-(windowHeight-posY), vMax: Math.sqrt(2*hMax*g), hoverable: true},
+{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: titleY, vMax: Math.sqrt(2*hMax*g), hoverable: true},
 
-{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: windowHeight-(windowHeight-posY), vMax: Math.sqrt(2*hMax*g), hoverable: true},
+{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: titleY, vMax: Math.sqrt(2*hMax*g), hoverable: true},
 
-{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: windowHeight-(windowHeight-posY), vMax: Math.sqrt(2*hMax*g), hoverable: true},
+{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: titleY, vMax: Math.sqrt(2*hMax*g), hoverable: true},
 
-{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: windowHeight-(windowHeight-posY), vMax: Math.sqrt(2*hMax*g), hoverable: true},
+{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: titleY, vMax: Math.sqrt(2*hMax*g), hoverable: true},
 
-{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: windowHeight-(windowHeight-posY), vMax: Math.sqrt(2*hMax*g), hoverable: true},
+{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight-(windowHeight-posY+20), tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: titleY, vMax: Math.sqrt(2*hMax*g), hoverable: true},
 
-{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: hMax, tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: windowHeight-(windowHeight-posY), vMax: Math.sqrt(2*hMax*g), hoverable: true}
+{hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: hMax, tLast: -Math.sqrt(2*hMax/g), h: hMax, floor: titleY, vMax: Math.sqrt(2*hMax*g), hoverable: true}
 ]
 
 
@@ -116,7 +125,11 @@ const [stopPlaying, setStopPlaying] = useState(false)
 //titleMask.drawRect(0,0,windowWidth,150)
 var bubbleSound: SOUND.Sound = SOUND.Sound.from('../src/audio/bubble.wav')
 
-const drawBgRect = useCallback((g: any) => {
+var charDistance:number = letterPositions[1].x - letterPositions[0].x
+
+const updateOnResize = useCallback((g: any) => {
+
+
 	g.clear()
 	g.beginFill(0x000000)
 	g.drawRect(
@@ -124,26 +137,34 @@ const drawBgRect = useCallback((g: any) => {
 		0,
 		0,
 		windowWidth,
-		150
+		windowHeight-20
 		  )
 
-
+hyperlinkStyle.fontSize = hyperlinkFontSize
 setLetterPositions([
-	{x: windowWidth/2 - titleLengthPixels * titleSpacing, y: windowHeight-(windowHeight-posY), char: textStyle},
-	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing)), y: windowHeight-(windowHeight-posY), char: textStyle},
-	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: windowHeight-(windowHeight-posY), char: textStyle},
-	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: windowHeight-(windowHeight-posY), char: textStyle},		
-	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 4)), y: windowHeight-(windowHeight-posY), char: textStyle},		
-	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 5)), y: windowHeight-(windowHeight-posY), char: textStyle},		
-	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 6)), y: windowHeight-(windowHeight-posY), char: textStyle},		
+	{x: windowWidth/2 - titleLengthPixels * titleSpacing, y: titleY, char: textStyle},
+	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing)), y: titleY, char: textStyle},
+	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: titleY, char: textStyle},
+	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: titleY, char: textStyle},		
+	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 4)), y: titleY, char: textStyle},		
+	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 5)), y: titleY, char: textStyle},		
+	{x: windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 6)), y: titleY, char: textStyle},		
 
-	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: windowHeight-(windowHeight-posY), char: textStyle},		
-	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: windowHeight-(windowHeight-posY), char: textStyle},		
-	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 1)), y: windowHeight-(windowHeight-posY), char: textStyle},		
-	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing)), y: windowHeight-(windowHeight-posY), char: textStyle}		
+	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: titleY, char: textStyle},		
+	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: titleY, char: textStyle},		
+	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 1)), y: titleY, char: textStyle},		
+	{x: windowWidth/2 + ((titleLengthPixels * titleSpacing)), y: titleY, char: textStyle}		
 ])
 
+
+
 //Remove event listener for mouseMove and add it again
+for(var i = 0; i < letterPhysics.length; i++) {
+		letterPhysics[i].floor = windowHeight/2 
+		letterPositions[i].x = windowWidth/2 - ((titleLengthPixels * titleSpacing) - (titleSpacing*i))
+}
+
+	charDistance = letterPositions[1].x - letterPositions[0].x
 
 
 }, [windowWidth,windowHeight]) 
@@ -177,22 +198,23 @@ document.addEventListener("mousemove",(event) => {
 
 
 
+
+
+
+
 function bounce(i: number): void {
 
 			//While max height is above 0	
 			if(letterPhysics[i].hMax > 0.01) {
-
 			
 			if(letterPhysics[i].freeFall) {
 			
 			letterPhysics[i].hNew = letterPhysics[i].h - letterPhysics[i].v*normalizedDelta - 0.5*letterPhysics[i].g*(normalizedDelta*normalizedDelta)
-
 			letterPositions[i].y = letterPhysics[i].hNew
 			
 			setLetterPositions(letterPositions)
 			
-			if(letterPhysics[i].hNew > letterPhysics[i].floor) {
-
+			if(letterPositions[i].y > letterPhysics[i].floor) {
 
 			letterPhysics[i].t = letterPhysics[i].tLast + 2*Math.sqrt(2*letterPhysics[i].hMax/letterPhysics[i].g)		
 			letterPhysics[i].tLast = letterPhysics[i].t + letterPhysics[i].cTime
@@ -205,16 +227,22 @@ function bounce(i: number): void {
 			letterPhysics[i].t+=normalizedDelta
 			letterPhysics[i].v-=letterPhysics[i].g*normalizedDelta
 			letterPhysics[i].h=letterPhysics[i].hNew
+
 			}
 			
 			} else {
+
 			letterPhysics[i].t = letterPhysics[i].t+letterPhysics[i].cTime	
 			letterPhysics[i].vMax = letterPhysics[i].vMax*letterPhysics[i].cr
 			letterPhysics[i].v = letterPhysics[i].vMax
 			letterPhysics[i].freeFall = true
 			letterPhysics[i].h=letterPhysics[i].floor
-			}
 
+			}
+		
+
+
+		letterPhysics[i].floor = windowHeight/2
 		letterPhysics[i].hMax = 0.5*letterPhysics[i].vMax*letterPhysics[i].vMax/letterPhysics[i].g
 		setLetterPhysics(letterPhysics)
 		}
@@ -222,6 +250,9 @@ function bounce(i: number): void {
 
 
 //Click handler
+
+
+
 document.addEventListener('click', (e) => {
 		for(let i = 0; i < letterPositions.length; i++) {
 		if(mouseX > letterPositions[i].x && mouseX < letterPositions[i].x+70) {
@@ -229,6 +260,9 @@ document.addEventListener('click', (e) => {
 			letterPhysics[i].freeFall = true
 		}
 }})
+
+
+
 		for(let i = 0; i < letterPositions.length; i++) {
 		
 		//If jumping of the letter is finished, then reset it's values
@@ -241,7 +275,7 @@ document.addEventListener('click', (e) => {
 			bounce(i)
 		}
 		
-		if(mouseX > letterPositions[i].x && mouseX < letterPositions[i].x+70) {
+		if(mouseX > letterPositions[i].x && mouseX < letterPositions[i].x+charDistance) {
 
 			letterPositions[i].char = activeTextStyle
 			
@@ -265,7 +299,11 @@ document.addEventListener('click', (e) => {
 		}
 
 
+
 update({
+
+
+
 
 type: 'update',
 data: {
@@ -278,9 +316,24 @@ data: {
 })
 
 
+var handleClick = () => {
+		for(let i = 0; i < letterPositions.length; i++) {
+		if(mouseX > letterPositions[i].x && mouseX < letterPositions[i].x+charDistance) {
+			letterPhysics[i].hoverable = false
+			letterPhysics[i].freeFall = true
+		}
+	}
+}
+
+
+var handleHyperLink = () => {
+	console.log("WORKS")
+}
+
+
 return (
 	<>
-<Graphics draw={drawBgRect}/>
+<Graphics draw={updateOnResize}/>
 
 	<Text text={"S"} anchor={0.5} x={letterPositions[0].x} y={letterPositions[0].y} style={letterPositions[0].char} />
 
@@ -310,6 +363,8 @@ return (
 }
 
 
+
+
 function PixiApp() {
 
 const [width,setWidth] = useState(window.innerWidth)
@@ -333,264 +388,29 @@ window.addEventListener('resize', () => {
 	}	
 
 	})
-
-
+	
 	return (
 	<div id="pixiApp">
 	<Stage width={width} height={height} options={{backgroundAlpha: 0}}>
-	<Title title="Shahroz Khan"/>
+	<Title/>
 	</Stage>
 	</div>
 	)
-
-}
-
-function AppendPage (props: PageProps) {
-
-const [softwarePage,setPage] = useState<softwarePageType>("SoftwareGAMES")
-	
-	if(props.pagType==="Illustrations") {
-	return (
-		<div id="gallery">
-		<div id="imgContainer">
-		<img src="img/illustrations/BinocularGirl.png"/>
-		</div>
-		</div>
-	       )	
-	} else if (props.pagType==="Pixelart"){
-		return ( 
-		<div id="gallery">
-		<div id="imgContainer">
-		<img src="img/pixelart/Omeshicha.png"/>
-		<img src="img/pixelart/AnimeMom.png"/>
-		<img src="img/pixelart/Mario32x32.png"/>
-		<img src="img/pixelart/MarioMockup.png"/>
-		<img src="img/pixelart/NiceLogo.png"/>
-		<img src="img/pixelart/HorseAsbaran.png"/>
-		<img src="img/pixelart/Mockup2.png"/>
-		</div>
-		</div> 
-
-		)
-	} else if(props.pagType==="About") {
-
-		return (
-		<>
-		<h1 id="subTitle">About Me</h1>
-		<img src="img/myFace.jpg" id="myFace"/> 
-		<p id="aboutMeText">
-	Hi! I am a hobbyist game developer with knowledge both in web development and software development. 
-	I have a strong passion for art beyond just my games and enjoy experimenting with math equations to get cool effects in my software.
-		</p>
-
-		<p id="aboutMeText">
-		I have participated in many game jams (which are hackathons but for video game projects) and created many other projects beyond just that. My favorite programming languages are c++ and typescript. 
-		</p>
-
-		<p id="aboutMeText">
-		I am looking forward to designing new innovative games in the future and commercializing my creative works.
-		</p>
-
-		</>
-		)
-
-	} else if(props.pagType==="Software") {
-		
-		if(softwarePage === "SoftwareGAMES") {
-		return (
-		<>
-
-		<div id="softwareNav">
-		<ul>
-		<li><a href="#CLITools" onClick={() => setPage("SoftwareCLI")}>CLI tools</a></li>
-		<li><a href="#Games" onClick={() => setPage("SoftwareGAMES")}>Games</a></li>
-		</ul>	
-		</div>
-
-
-		<div id="gallery">
-		
-		<div id="imgContainer">
-		<img id="img1" src="img/gameImages/birbyNight.gif"/>
-		
-		<a href="https://devoc.itch.io/birby">	
-		<div id="softwareIMGOverlay">
-		<div id="softwareIMGOverlayText">
-		<p>Puzzle platformer with</p>
-		<p>platform splashing mechanics.</p>
-		<p>Made in Godot.</p>
-		</div>
-		</div>		
-		</a>
-
-		</div>
-
-		<div id="imgContainer">
-		<img id="img2" src="img/gameImages/terminalShooter.png"/>
-
-
-		<a href="https://devoc.itch.io/terminalShooter">	
-		<div id="softwareIMGOverlay">
-		<div id="softwareIMGOverlayText">
-		<p>Bullet hell java game with</p>
-		<p>player switching mechanics.</p>
-		<p>Made for the brackeys game jam.</p>
-		</div>
-		</div>		
-		</a>
-
-		</div>
-
-
-
-		<div id="imgContainer">
-		<img id="img3" src="img/gameImages/lifelessBits.gif"/>
-
-		<a href="https://devoc.itch.io/lifelessBits">	
-		<div id="softwareIMGOverlay">
-		<div id="softwareIMGOverlayText">
-		<p>FPS highscore game.</p>
-		<p>Made for the LOWREZ jam.</p>
-		</div>
-		</div>		
-		</a>
-		
-		</div>
-
-		<div id="imgContainer">
-		<img id="img4" src="img/gameImages/1984.png"/>
-
-		<a href="https://devoc.itch.io/1984">	
-		<div id="softwareIMGOverlay">
-		<div id="softwareIMGOverlayText">
-		<p>First person story game</p>
-		<p>based on the book 1984</p>
-		<p>by George Orwell.</p>
-		</div>
-		</div>		
-		</a>
-		
-		</div>
-
-
-		<div id="imgContainer">
-		<img id="img5" src="img/gameImages/DegBomb.png"/>
-
-		<a href="https://devoc.itch.io/degree-bomb">	
-		<div id="softwareIMGOverlay">
-		<div id="softwareIMGOverlayText">
-		<p>A unity3D game about</p>
-		<p>about destorying enemies</p>
-		<p>with a rotating sphere.</p>
-		<p>Made for the brackeys game jam.</p>
-		</div>
-		</div>		
-		</a>
-		
-		</div>
-
-
-		</div>
-
-		</>
-		)
-		
-		} else if(softwarePage === "SoftwareCLI") {
-			return (
-				<>
-		<div id="softwareNav">
-		<ul>
-		<li><a href="#CLITools" onClick={() => setPage("SoftwareCLI")}>CLI tools</a></li>
-		<li><a href="#Games" onClick={() => setPage("SoftwareGAMES")}>Games</a></li>
-		</ul>	
-		</div>
-		</>
-			       )
-		}	
-
-	} else if(props.pagType==="Contact") {
-		return (
-		<>
-		<img src="img/awkwardSmile.jpg" id="myFace"/> 
-		<p id="aboutMeText">
-		Email: mugeneve@gmail.com
-		</p>
-		<p id="aboutMeText">
-		Github: <a href="https://github.com/shia5347">shia5347</a> 
-		</p>
-		</>
-		)
-	}
-}
-
-function Navigation() {
-
-const [page,setPage] = useState<pageType>("Illustrations")
-
-var hash: string = window.location.hash
-
-
-useEffect(()=> {
-
-		switch(hash) {
-		
-		case "#Illustrations":
-		setPage("Illustrations")
-		break;
-
-		case "#PixelArt":
-		setPage("Pixelart")
-		break;
-
-		case "#About":
-		setPage("About")
-		break;
-		
-		case "#Software":
-		setPage("Software")
-		break;
-
-
-		case "#Contact":
-		setPage("Contact")
-		break;
-
-		}
-
-})
-
-
-	return (
-
-	<div>	
-	<div id="navContainer">
-	<ul>
-	<li><a href="#Illustrations" onClick={() => setPage("Illustrations")}>Illustrations</a></li>
-	<li><a href="#PixelArt" onClick={() => setPage("Pixelart")}>PixelArt</a></li>
-	<li><a href="#Software" onClick={() => setPage("Software")}>Software</a></li>
-	<li><a href="#Contact" onClick={() => setPage("Contact")}>Contact</a></li>
-	<li><a href="#About" onClick={() => setPage("About")}>About</a></li>
-	</ul>
-
-	</div>
-	<AppendPage pagType={page}/>	
-	</div>
-
-);
-
+       
 }
 
 
 
 export default function MyApp() {
 	
-
+	var page = 'myGames'
 	return (
 		
-		<div>
-			<Navigation />
+		<div id="homepageLinkDiv">
 			<PixiApp/>
-
+			<BrowserRouter>
+			<Link to={`/home/${page}`}>Enter the lounge</Link>
+			</BrowserRouter>
 		</div>
 
 	);

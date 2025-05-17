@@ -27,6 +27,7 @@ const react_1 = __importStar(require("react"));
 const react_2 = require("@pixi/react");
 const pixi_js_1 = require("pixi.js");
 const SOUND = __importStar(require("@pixi/sound"));
+const react_router_dom_1 = require("react-router-dom");
 const ratio = window.innerWidth / window.innerHeight;
 const reducerPlain = (_, { data }) => data;
 const app = new pixi_js_1.Application({
@@ -34,65 +35,72 @@ const app = new pixi_js_1.Application({
     height: window.innerHeight,
     backgroundColor: 0x1099bb,
 });
-const defaultPageProps = {
-    pagType: 'Illustrations'
-};
 var mouseX;
 var mouseY;
 document.addEventListener("mousemove", (event) => {
     mouseX = event.clientX;
     mouseY = event.clientY;
 });
-function Title({ title }) {
+function Title() {
     var posY = 75;
     var windowWidth = window.innerWidth;
     var windowHeight = window.innerHeight;
+    var title = "Shahroz Khan";
     const [motion, update] = (0, react_1.useReducer)(reducerPlain, null);
     const textStyle = new pixi_js_1.TextStyle({
         fontFamily: 'Roboto-Regular',
-        fontSize: 90,
+        fontSize: 180,
         fill: 'white'
     });
     const activeTextStyle = new pixi_js_1.TextStyle({
         fontFamily: 'Roboto-Regular',
-        fontSize: 90,
+        fontSize: 160,
         stroke: 'red',
         strokeThickness: 2,
         fill: 'white'
     });
+    var hyperlinkFontSize = 50;
+    var hyperlinkStyle = new pixi_js_1.TextStyle({
+        fontFamily: 'Jersey 10',
+        fontSize: hyperlinkFontSize,
+        fill: 'orange'
+    });
+    var hyperlinkText = "Go to the lounge";
+    var hyperlinkLength = hyperlinkText.length;
     const titleArr = title.split('');
     //Calculate first letter position
     const titleLength = title.length;
     const titleLengthPixels = titleLength / 2;
-    const titleSpacing = 55;
+    const titleSpacing = 100;
+    var titleY = windowHeight / 2;
     const letterPositionsArr = [
-        { x: windowWidth / 2 - titleLengthPixels * titleSpacing, y: windowHeight - (windowHeight - posY), char: textStyle },
-        { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing)), y: windowHeight - (windowHeight - posY), char: textStyle },
-        { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: windowHeight - (windowHeight - posY), char: textStyle },
-        { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: windowHeight - (windowHeight - posY), char: textStyle },
-        { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 4)), y: windowHeight - (windowHeight - posY), char: textStyle },
-        { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 5)), y: windowHeight - (windowHeight - posY), char: textStyle },
-        { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 6)), y: windowHeight - (windowHeight - posY), char: textStyle },
-        { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: windowHeight - (windowHeight - posY), char: textStyle },
-        { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: windowHeight - (windowHeight - posY), char: textStyle },
-        { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 1)), y: windowHeight - (windowHeight - posY), char: textStyle },
-        { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing)), y: windowHeight - (windowHeight - posY), char: textStyle }
+        { x: windowWidth / 2 - titleLengthPixels * titleSpacing, y: titleY, char: textStyle },
+        { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing)), y: titleY, char: textStyle },
+        { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: titleY, char: textStyle },
+        { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: titleY, char: textStyle },
+        { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 4)), y: titleY, char: textStyle },
+        { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 5)), y: titleY, char: textStyle },
+        { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 6)), y: titleY, char: textStyle },
+        { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: titleY, char: textStyle },
+        { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: titleY, char: textStyle },
+        { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 1)), y: titleY, char: textStyle },
+        { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing)), y: titleY, char: textStyle }
     ];
-    var hMax = windowHeight - (windowHeight - posY + 20);
+    var hMax = windowHeight / 2 - 20;
     var g = 9.8;
     //Physics properties for each letter
     const letterPhysicsArr = [
-        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: windowHeight - (windowHeight - posY + 20), floor: windowHeight - (windowHeight - posY), vMax: Math.sqrt(2 * hMax * g), hoverable: true },
-        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: windowHeight - (windowHeight - posY + 20), floor: windowHeight - (windowHeight - posY), vMax: Math.sqrt(2 * hMax * g), hoverable: true },
-        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: windowHeight - (windowHeight - posY), vMax: Math.sqrt(2 * hMax * g), hoverable: true },
-        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: windowHeight - (windowHeight - posY), vMax: Math.sqrt(2 * hMax * g), hoverable: true },
-        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: windowHeight - (windowHeight - posY), vMax: Math.sqrt(2 * hMax * g), hoverable: true },
-        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: windowHeight - (windowHeight - posY), vMax: Math.sqrt(2 * hMax * g), hoverable: true },
-        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: windowHeight - (windowHeight - posY), vMax: Math.sqrt(2 * hMax * g), hoverable: true },
-        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: windowHeight - (windowHeight - posY), vMax: Math.sqrt(2 * hMax * g), hoverable: true },
-        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: windowHeight - (windowHeight - posY), vMax: Math.sqrt(2 * hMax * g), hoverable: true },
-        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: windowHeight - (windowHeight - posY), vMax: Math.sqrt(2 * hMax * g), hoverable: true },
-        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: hMax, tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: windowHeight - (windowHeight - posY), vMax: Math.sqrt(2 * hMax * g), hoverable: true }
+        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: titleY, vMax: Math.sqrt(2 * hMax * g), hoverable: true },
+        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: titleY, vMax: Math.sqrt(2 * hMax * g), hoverable: true },
+        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: titleY, vMax: Math.sqrt(2 * hMax * g), hoverable: true },
+        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: titleY, vMax: Math.sqrt(2 * hMax * g), hoverable: true },
+        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: titleY, vMax: Math.sqrt(2 * hMax * g), hoverable: true },
+        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: titleY, vMax: Math.sqrt(2 * hMax * g), hoverable: true },
+        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: titleY, vMax: Math.sqrt(2 * hMax * g), hoverable: true },
+        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: titleY, vMax: Math.sqrt(2 * hMax * g), hoverable: true },
+        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: titleY, vMax: Math.sqrt(2 * hMax * g), hoverable: true },
+        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: windowHeight - (windowHeight - posY + 20), tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: titleY, vMax: Math.sqrt(2 * hMax * g), hoverable: true },
+        { hNew: 0, cr: 0.75, v: 0, g: 29.8, t: 0, cTime: 0.10, freeFall: false, hMax: hMax, tLast: -Math.sqrt(2 * hMax / g), h: hMax, floor: titleY, vMax: Math.sqrt(2 * hMax * g), hoverable: true }
     ];
     const [letterPositions, setLetterPositions] = (0, react_1.useState)(letterPositionsArr);
     const [letterPhysics, setLetterPhysics] = (0, react_1.useState)(letterPhysicsArr);
@@ -101,24 +109,31 @@ function Title({ title }) {
     //titleMask.beginFill(0x000000)
     //titleMask.drawRect(0,0,windowWidth,150)
     var bubbleSound = SOUND.Sound.from('../src/audio/bubble.wav');
-    const drawBgRect = (0, react_1.useCallback)((g) => {
+    var charDistance = letterPositions[1].x - letterPositions[0].x;
+    const updateOnResize = (0, react_1.useCallback)((g) => {
         g.clear();
         g.beginFill(0x000000);
-        g.drawRect(0, 0, windowWidth, 150);
+        g.drawRect(0, 0, windowWidth, windowHeight - 20);
+        hyperlinkStyle.fontSize = hyperlinkFontSize;
         setLetterPositions([
-            { x: windowWidth / 2 - titleLengthPixels * titleSpacing, y: windowHeight - (windowHeight - posY), char: textStyle },
-            { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing)), y: windowHeight - (windowHeight - posY), char: textStyle },
-            { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: windowHeight - (windowHeight - posY), char: textStyle },
-            { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: windowHeight - (windowHeight - posY), char: textStyle },
-            { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 4)), y: windowHeight - (windowHeight - posY), char: textStyle },
-            { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 5)), y: windowHeight - (windowHeight - posY), char: textStyle },
-            { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 6)), y: windowHeight - (windowHeight - posY), char: textStyle },
-            { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: windowHeight - (windowHeight - posY), char: textStyle },
-            { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: windowHeight - (windowHeight - posY), char: textStyle },
-            { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 1)), y: windowHeight - (windowHeight - posY), char: textStyle },
-            { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing)), y: windowHeight - (windowHeight - posY), char: textStyle }
+            { x: windowWidth / 2 - titleLengthPixels * titleSpacing, y: titleY, char: textStyle },
+            { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing)), y: titleY, char: textStyle },
+            { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: titleY, char: textStyle },
+            { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: titleY, char: textStyle },
+            { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 4)), y: titleY, char: textStyle },
+            { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 5)), y: titleY, char: textStyle },
+            { x: windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * 6)), y: titleY, char: textStyle },
+            { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 3)), y: titleY, char: textStyle },
+            { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 2)), y: titleY, char: textStyle },
+            { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing) - (titleSpacing * 1)), y: titleY, char: textStyle },
+            { x: windowWidth / 2 + ((titleLengthPixels * titleSpacing)), y: titleY, char: textStyle }
         ]);
         //Remove event listener for mouseMove and add it again
+        for (var i = 0; i < letterPhysics.length; i++) {
+            letterPhysics[i].floor = windowHeight / 2;
+            letterPositions[i].x = windowWidth / 2 - ((titleLengthPixels * titleSpacing) - (titleSpacing * i));
+        }
+        charDistance = letterPositions[1].x - letterPositions[0].x;
     }, [windowWidth, windowHeight]);
     var letterIndex = 0;
     (0, react_2.useTick)((delta) => {
@@ -146,7 +161,7 @@ function Title({ title }) {
                     letterPhysics[i].hNew = letterPhysics[i].h - letterPhysics[i].v * normalizedDelta - 0.5 * letterPhysics[i].g * (normalizedDelta * normalizedDelta);
                     letterPositions[i].y = letterPhysics[i].hNew;
                     setLetterPositions(letterPositions);
-                    if (letterPhysics[i].hNew > letterPhysics[i].floor) {
+                    if (letterPositions[i].y > letterPhysics[i].floor) {
                         letterPhysics[i].t = letterPhysics[i].tLast + 2 * Math.sqrt(2 * letterPhysics[i].hMax / letterPhysics[i].g);
                         letterPhysics[i].tLast = letterPhysics[i].t + letterPhysics[i].cTime;
                         letterPhysics[i].freeFall = false;
@@ -165,6 +180,7 @@ function Title({ title }) {
                     letterPhysics[i].freeFall = true;
                     letterPhysics[i].h = letterPhysics[i].floor;
                 }
+                letterPhysics[i].floor = windowHeight / 2;
                 letterPhysics[i].hMax = 0.5 * letterPhysics[i].vMax * letterPhysics[i].vMax / letterPhysics[i].g;
                 setLetterPhysics(letterPhysics);
             }
@@ -187,7 +203,7 @@ function Title({ title }) {
             if (letterPhysics[i].hoverable === false) {
                 bounce(i);
             }
-            if (mouseX > letterPositions[i].x && mouseX < letterPositions[i].x + 70) {
+            if (mouseX > letterPositions[i].x && mouseX < letterPositions[i].x + charDistance) {
                 letterPositions[i].char = activeTextStyle;
                 if (letterPositions[i].y > hMax && letterPhysics[i].hoverable) {
                     letterPositions[i].y -= normalizedDelta * 80;
@@ -207,8 +223,19 @@ function Title({ title }) {
             data: {},
         });
     });
+    var handleClick = () => {
+        for (let i = 0; i < letterPositions.length; i++) {
+            if (mouseX > letterPositions[i].x && mouseX < letterPositions[i].x + charDistance) {
+                letterPhysics[i].hoverable = false;
+                letterPhysics[i].freeFall = true;
+            }
+        }
+    };
+    var handleHyperLink = () => {
+        console.log("WORKS");
+    };
     return (react_1.default.createElement(react_1.default.Fragment, null,
-        react_1.default.createElement(react_2.Graphics, { draw: drawBgRect }),
+        react_1.default.createElement(react_2.Graphics, { draw: updateOnResize }),
         react_1.default.createElement(react_2.Text, { text: "S", anchor: 0.5, x: letterPositions[0].x, y: letterPositions[0].y, style: letterPositions[0].char }),
         react_1.default.createElement(react_2.Text, { text: "h", anchor: 0.5, x: letterPositions[1].x, y: letterPositions[1].y, style: letterPositions[1].char }),
         react_1.default.createElement(react_2.Text, { text: "a", anchor: 0.5, x: letterPositions[2].x, y: letterPositions[2].y, style: letterPositions[2].char }),
@@ -240,145 +267,14 @@ function PixiApp() {
     });
     return (react_1.default.createElement("div", { id: "pixiApp" },
         react_1.default.createElement(react_2.Stage, { width: width, height: height, options: { backgroundAlpha: 0 } },
-            react_1.default.createElement(Title, { title: "Shahroz Khan" }))));
-}
-function AppendPage(props) {
-    const [softwarePage, setPage] = (0, react_1.useState)("SoftwareGAMES");
-    if (props.pagType === "Illustrations") {
-        return (react_1.default.createElement("div", { id: "gallery" },
-            react_1.default.createElement("div", { id: "imgContainer" },
-                react_1.default.createElement("img", { src: "img/illustrations/BinocularGirl.png" }))));
-    }
-    else if (props.pagType === "Pixelart") {
-        return (react_1.default.createElement("div", { id: "gallery" },
-            react_1.default.createElement("div", { id: "imgContainer" },
-                react_1.default.createElement("img", { src: "img/pixelart/Omeshicha.png" }),
-                react_1.default.createElement("img", { src: "img/pixelart/AnimeMom.png" }),
-                react_1.default.createElement("img", { src: "img/pixelart/Mario32x32.png" }),
-                react_1.default.createElement("img", { src: "img/pixelart/MarioMockup.png" }),
-                react_1.default.createElement("img", { src: "img/pixelart/NiceLogo.png" }),
-                react_1.default.createElement("img", { src: "img/pixelart/HorseAsbaran.png" }),
-                react_1.default.createElement("img", { src: "img/pixelart/Mockup2.png" }))));
-    }
-    else if (props.pagType === "About") {
-        return (react_1.default.createElement(react_1.default.Fragment, null,
-            react_1.default.createElement("h1", { id: "subTitle" }, "About Me"),
-            react_1.default.createElement("img", { src: "img/myFace.jpg", id: "myFace" }),
-            react_1.default.createElement("p", { id: "aboutMeText" }, "Hi! I am a hobbyist game developer with knowledge both in web development and software development. I have a strong passion for art beyond just my games and enjoy experimenting with math equations to get cool effects in my software."),
-            react_1.default.createElement("p", { id: "aboutMeText" }, "I have participated in many game jams (which are hackathons but for video game projects) and created many other projects beyond just that. My favorite programming languages are c++ and typescript."),
-            react_1.default.createElement("p", { id: "aboutMeText" }, "I am looking forward to designing new innovative games in the future and commercializing my creative works.")));
-    }
-    else if (props.pagType === "Software") {
-        if (softwarePage === "SoftwareGAMES") {
-            return (react_1.default.createElement(react_1.default.Fragment, null,
-                react_1.default.createElement("div", { id: "softwareNav" },
-                    react_1.default.createElement("ul", null,
-                        react_1.default.createElement("li", null,
-                            react_1.default.createElement("a", { href: "#CLITools", onClick: () => setPage("SoftwareCLI") }, "CLI tools")),
-                        react_1.default.createElement("li", null,
-                            react_1.default.createElement("a", { href: "#Games", onClick: () => setPage("SoftwareGAMES") }, "Games")))),
-                react_1.default.createElement("div", { id: "gallery" },
-                    react_1.default.createElement("div", { id: "imgContainer" },
-                        react_1.default.createElement("img", { id: "img1", src: "img/gameImages/birbyNight.gif" }),
-                        react_1.default.createElement("a", { href: "https://devoc.itch.io/birby" },
-                            react_1.default.createElement("div", { id: "softwareIMGOverlay" },
-                                react_1.default.createElement("div", { id: "softwareIMGOverlayText" },
-                                    react_1.default.createElement("p", null, "Puzzle platformer with"),
-                                    react_1.default.createElement("p", null, "platform splashing mechanics."),
-                                    react_1.default.createElement("p", null, "Made in Godot."))))),
-                    react_1.default.createElement("div", { id: "imgContainer" },
-                        react_1.default.createElement("img", { id: "img2", src: "img/gameImages/terminalShooter.png" }),
-                        react_1.default.createElement("a", { href: "https://devoc.itch.io/terminalShooter" },
-                            react_1.default.createElement("div", { id: "softwareIMGOverlay" },
-                                react_1.default.createElement("div", { id: "softwareIMGOverlayText" },
-                                    react_1.default.createElement("p", null, "Bullet hell java game with"),
-                                    react_1.default.createElement("p", null, "player switching mechanics."),
-                                    react_1.default.createElement("p", null, "Made for the brackeys game jam."))))),
-                    react_1.default.createElement("div", { id: "imgContainer" },
-                        react_1.default.createElement("img", { id: "img3", src: "img/gameImages/lifelessBits.gif" }),
-                        react_1.default.createElement("a", { href: "https://devoc.itch.io/lifelessBits" },
-                            react_1.default.createElement("div", { id: "softwareIMGOverlay" },
-                                react_1.default.createElement("div", { id: "softwareIMGOverlayText" },
-                                    react_1.default.createElement("p", null, "FPS highscore game."),
-                                    react_1.default.createElement("p", null, "Made for the LOWREZ jam."))))),
-                    react_1.default.createElement("div", { id: "imgContainer" },
-                        react_1.default.createElement("img", { id: "img4", src: "img/gameImages/1984.png" }),
-                        react_1.default.createElement("a", { href: "https://devoc.itch.io/1984" },
-                            react_1.default.createElement("div", { id: "softwareIMGOverlay" },
-                                react_1.default.createElement("div", { id: "softwareIMGOverlayText" },
-                                    react_1.default.createElement("p", null, "First person story game"),
-                                    react_1.default.createElement("p", null, "based on the book 1984"),
-                                    react_1.default.createElement("p", null, "by George Orwell."))))),
-                    react_1.default.createElement("div", { id: "imgContainer" },
-                        react_1.default.createElement("img", { id: "img5", src: "img/gameImages/DegBomb.png" }),
-                        react_1.default.createElement("a", { href: "https://devoc.itch.io/degree-bomb" },
-                            react_1.default.createElement("div", { id: "softwareIMGOverlay" },
-                                react_1.default.createElement("div", { id: "softwareIMGOverlayText" },
-                                    react_1.default.createElement("p", null, "A unity3D game about"),
-                                    react_1.default.createElement("p", null, "about destorying enemies"),
-                                    react_1.default.createElement("p", null, "with a rotating sphere."),
-                                    react_1.default.createElement("p", null, "Made for the brackeys game jam."))))))));
-        }
-        else if (softwarePage === "SoftwareCLI") {
-            return (react_1.default.createElement(react_1.default.Fragment, null,
-                react_1.default.createElement("div", { id: "softwareNav" },
-                    react_1.default.createElement("ul", null,
-                        react_1.default.createElement("li", null,
-                            react_1.default.createElement("a", { href: "#CLITools", onClick: () => setPage("SoftwareCLI") }, "CLI tools")),
-                        react_1.default.createElement("li", null,
-                            react_1.default.createElement("a", { href: "#Games", onClick: () => setPage("SoftwareGAMES") }, "Games"))))));
-        }
-    }
-    else if (props.pagType === "Contact") {
-        return (react_1.default.createElement(react_1.default.Fragment, null,
-            react_1.default.createElement("img", { src: "img/awkwardSmile.jpg", id: "myFace" }),
-            react_1.default.createElement("p", { id: "aboutMeText" }, "Email: mugeneve@gmail.com"),
-            react_1.default.createElement("p", { id: "aboutMeText" },
-                "Github: ",
-                react_1.default.createElement("a", { href: "https://github.com/shia5347" }, "shia5347"))));
-    }
-}
-function Navigation() {
-    const [page, setPage] = (0, react_1.useState)("Illustrations");
-    var hash = window.location.hash;
-    (0, react_1.useEffect)(() => {
-        switch (hash) {
-            case "#Illustrations":
-                setPage("Illustrations");
-                break;
-            case "#PixelArt":
-                setPage("Pixelart");
-                break;
-            case "#About":
-                setPage("About");
-                break;
-            case "#Software":
-                setPage("Software");
-                break;
-            case "#Contact":
-                setPage("Contact");
-                break;
-        }
-    });
-    return (react_1.default.createElement("div", null,
-        react_1.default.createElement("div", { id: "navContainer" },
-            react_1.default.createElement("ul", null,
-                react_1.default.createElement("li", null,
-                    react_1.default.createElement("a", { href: "#Illustrations", onClick: () => setPage("Illustrations") }, "Illustrations")),
-                react_1.default.createElement("li", null,
-                    react_1.default.createElement("a", { href: "#PixelArt", onClick: () => setPage("Pixelart") }, "PixelArt")),
-                react_1.default.createElement("li", null,
-                    react_1.default.createElement("a", { href: "#Software", onClick: () => setPage("Software") }, "Software")),
-                react_1.default.createElement("li", null,
-                    react_1.default.createElement("a", { href: "#Contact", onClick: () => setPage("Contact") }, "Contact")),
-                react_1.default.createElement("li", null,
-                    react_1.default.createElement("a", { href: "#About", onClick: () => setPage("About") }, "About")))),
-        react_1.default.createElement(AppendPage, { pagType: page })));
+            react_1.default.createElement(Title, null))));
 }
 function MyApp() {
-    return (react_1.default.createElement("div", null,
-        react_1.default.createElement(Navigation, null),
-        react_1.default.createElement(PixiApp, null)));
+    var page = 'myGames';
+    return (react_1.default.createElement("div", { id: "homepageLinkDiv" },
+        react_1.default.createElement(PixiApp, null),
+        react_1.default.createElement(react_router_dom_1.BrowserRouter, null,
+            react_1.default.createElement(react_router_dom_1.Link, { to: `/home/${page}` }, "Enter the lounge"))));
 }
 exports.default = MyApp;
 //# sourceMappingURL=App.js.map
